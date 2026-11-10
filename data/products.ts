@@ -12,7 +12,7 @@ export type Product = {
 
 // Image file names (must match the files in public/products exactly, including capitals and .jpg/.png)
 const FAN_IMG = "/products/Fan.jpg";
-const INVERTER_IMG = "/products/Inverter.jpg";
+const INVERTER_IMG = "/products/Inverter.png";
 
 export const categories: Category[] = [
   { id: "fans", name: "Solar Fans", blurb: "Rechargeable fans that keep running when the power goes out." },
