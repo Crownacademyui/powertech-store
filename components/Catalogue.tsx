@@ -5,6 +5,7 @@ import { categories, products, type CategoryId, type Product } from "@/data/prod
 import { msg, naira } from "@/lib/whatsapp";
 import Modal from "./Modal";
 import ProductArt from "./ProductArt";
+import Reveal from "./Reveal";
 import Checkout, { toOrder, type Order } from "./Checkout";
 
 const icons = { fans: Fan, "street-lights": Lightbulb, lamps: Lamp, inverters: BatteryCharging };
@@ -62,23 +63,25 @@ export default function Catalogue() {
 
   return (
     <section id="products" className="mx-auto max-w-6xl px-5 py-20">
-      <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Shop solar products</h2>
-      <p className="mt-2 max-w-xl opacity-75">Pick a category to see what we have available.</p>
+      <Reveal>
+        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Shop solar products</h2>
+        <p className="mt-2 max-w-xl opacity-75">Pick a category to see what we have available.</p>
+      </Reveal>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="tablist" aria-label="Product categories">
-        {categories.map((c) => { const Icon = icons[c.id]; const on = c.id === cat; return (
-          <button key={c.id} role="tab" aria-selected={on} onClick={() => { setCat(c.id); document.getElementById("product-list")?.scrollIntoView({ behavior: "smooth" }); }}
-            className={`rounded-3xl p-6 text-left transition-colors ${on ? "bg-forest text-white" : "bg-mist hover:bg-lime/50"}`}>
+        {categories.map((c, k) => { const Icon = icons[c.id]; const on = c.id === cat; return (
+          <Reveal key={c.id} delay={k * 80} className="h-full"><button role="tab" aria-selected={on} onClick={() => { setCat(c.id); document.getElementById("product-list")?.scrollIntoView({ behavior: "smooth" }); }}
+            className={`h-full w-full rounded-3xl p-6 text-left transition-colors ${on ? "bg-forest text-white" : "bg-mist hover:bg-lime/50"}`}>
             <Icon size={34} strokeWidth={1.5} /><h3 className="mt-4 text-lg font-bold">{c.name}</h3>
             <p className={`mt-1 text-sm ${on ? "opacity-80" : "opacity-70"}`}>{c.blurb}</p>
             <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold">Explore Products <ArrowRight size={16} /></span>
-          </button>); })}
+          </button></Reveal>); })}
       </div>
 
       <div id="product-list" className="mt-14">
         <h3 className="text-2xl font-bold">{active.name}</h3>
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((p) => (
-            <article key={p.id} className="flex flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white shadow-sm">
+          {list.map((p, k) => (
+            <Reveal key={p.id} delay={k * 80} className="h-full"><article className="flex h-full flex-col overflow-hidden rounded-3xl border border-forest/10 bg-white shadow-sm">
               <div className="aspect-[4/3]"><ProductArt category={p.category} image={p.image} alt={p.name} /></div>
               <div className="flex flex-1 flex-col p-5">
                 <h4 className="font-bold">{p.name}</h4><p className="mt-1 text-sm opacity-75">{p.short}</p>
@@ -88,7 +91,7 @@ export default function Catalogue() {
                   <button className="btn-line flex-1 !px-3" onClick={() => setView(p)}>View Details</button>
                   {p.models[0].price === null ? <a className="btn-dark flex-1 !px-3" href={msg.product(p.name)} target="_blank" rel="noopener noreferrer">Enquire Now</a> : <button className="btn-dark flex-1 !px-3" disabled={!p.inStock} onClick={() => { const o = toOrder(p, p.models[0], 1); if (o) setOrder(o); }}>Buy Now</button>}</div>
               </div>
-            </article>))}
+            </article></Reveal>))}
         </div>
       </div>
       {view && <Details product={view} onClose={() => setView(null)} onBuy={(o) => { setView(null); setOrder(o); }} />}
