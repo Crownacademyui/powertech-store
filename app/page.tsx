@@ -38,7 +38,6 @@ export default function Home() {
                 <div className="grid grid-cols-4 gap-2 [transform:perspective(600px)_rotateX(18deg)]">
                   {Array.from({ length: 16 }).map((_, k) => (<div key={k} className="cell aspect-square rounded-md bg-gradient-to-br from-navy to-leaf" style={{ animationDelay: `${k * 60}ms` }} />))}
                 </div>
-                <p className="mt-6 text-sm text-lime">Replace this panel with a photo of a solar-powered home.</p>
               </div>
             </div>
           </div>
