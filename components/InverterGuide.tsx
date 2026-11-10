@@ -9,7 +9,7 @@ export default function InverterGuide() {
   const [i, setI] = useState(0);
   const p = models[i]; const inv = p.inverter!;
   const rows: [string, string][] = [["Capacity", inv.capacity], ["Battery", inv.battery], ["Recommended solar panels", inv.panels], ["Batteries required", inv.batteries],
-    ["Continuous output", inv.continuous], ["Surge capacity", inv.surge], ["Estimated backup", inv.backup], ["Suited to", tierNames[inv.tier]]];
+    ["Continuous output", inv.continuous], ["Surge capacity", inv.surge], ["Estimated backup", inv.backup], ["Suited to", inv.suited]];
   return (
     <section id="inverters" className="bg-ink py-20 text-white">
       <div className="mx-auto max-w-6xl px-5">
