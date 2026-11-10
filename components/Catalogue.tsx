@@ -5,10 +5,10 @@ import { categories, products, type CategoryId, type Product } from "@/data/prod
 import { msg, naira } from "@/lib/whatsapp";
 import Modal from "./Modal";
 import ProductArt from "./ProductArt";
-import Checkout, { type Order } from "./Checkout";
+import Checkout, { toOrder, type Order } from "./Checkout";
 
 const icons = { fans: Fan, "street-lights": Lightbulb, lamps: Lamp, inverters: BatteryCharging };
-const from = (p: Product) => Math.min(...p.models.map((m) => m.price));
+const fromPrice = (p: Product) => { const ps = p.models.map((m) => m.price).filter((x): x is number => x !== null); return ps.length ? Math.min(...ps) : null; };
 
 function Details({ product, onClose, onBuy }: { product: Product; onClose: () => void; onBuy: (o: Order) => void }) {
   const [mi, setMi] = useState(0);
@@ -20,7 +20,7 @@ function Details({ product, onClose, onBuy }: { product: Product; onClose: () =>
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="aspect-square overflow-hidden rounded-2xl"><ProductArt category={product.category} image={product.image} alt={product.name} /></div>
         <div>
-          <p className="text-3xl font-extrabold">{naira(model.price * qty)}</p>
+          <p className="text-3xl font-extrabold">{model.price === null ? "Contact for price" : naira(model.price * qty)}</p>
           <p className={`mt-1 text-sm font-medium ${product.inStock ? "text-leaf" : "text-red-700"}`}>{product.inStock ? "In stock" : "Out of stock"}</p>
           <p className="mt-3">{product.description}</p>
           {product.models.length > 1 && (
@@ -34,7 +34,7 @@ function Details({ product, onClose, onBuy }: { product: Product; onClose: () =>
             <span className="w-6 text-center font-semibold">{qty}</span>
             <button className="btn-line !px-3 !py-1" aria-label="Increase quantity" onClick={() => setQty(Math.min(50, qty + 1))}>+</button></div>
           <div className="mt-5 flex flex-wrap gap-3">
-            <button className="btn-dark" disabled={!product.inStock} onClick={() => onBuy({ product, model, qty })}>Buy Now</button>
+            {model.price === null ? <a className="btn-dark" href={msg.product(product.name)} target="_blank" rel="noopener noreferrer">Enquire Now</a> : <button className="btn-dark" disabled={!product.inStock} onClick={() => { const o = toOrder(product, model, qty); if (o) onBuy(o); }}>Buy Now</button>}
             <a className="btn-line" href={msg.product(product.name)} target="_blank" rel="noopener noreferrer">Ask on WhatsApp</a></div>
         </div>
       </div>
@@ -85,11 +85,11 @@ export default function Catalogue() {
               <div className="aspect-[4/3]"><ProductArt category={p.category} image={p.image} alt={p.name} /></div>
               <div className="flex flex-1 flex-col p-5">
                 <h4 className="font-bold">{p.name}</h4><p className="mt-1 text-sm opacity-75">{p.short}</p>
-                <p className="mt-3 text-xl font-extrabold">{p.models.length > 1 ? "From " : ""}{naira(from(p))}</p>
+                <p className="mt-3 text-xl font-extrabold">{fromPrice(p) === null ? "Contact for price" : `${p.models.length > 1 ? "From " : ""}${naira(fromPrice(p)!)}`}</p>
                 <ul className="mt-3 space-y-1 text-sm">{p.features.slice(0, 3).map((x) => (<li key={x} className="flex gap-2"><Check size={16} className="mt-0.5 shrink-0 text-leaf" />{x}</li>))}</ul>
                 <div className="mt-auto flex gap-2 pt-5">
                   <button className="btn-line flex-1 !px-3" onClick={() => setView(p)}>View Details</button>
-                  <button className="btn-dark flex-1 !px-3" disabled={!p.inStock} onClick={() => setOrder({ product: p, model: p.models[0], qty: 1 })}>Buy Now</button></div>
+                  {p.models[0].price === null ? <a className="btn-dark flex-1 !px-3" href={msg.product(p.name)} target="_blank" rel="noopener noreferrer">Enquire Now</a> : <button className="btn-dark flex-1 !px-3" disabled={!p.inStock} onClick={() => { const o = toOrder(p, p.models[0], 1); if (o) setOrder(o); }}>Buy Now</button>}</div>
               </div>
             </article>))}
         </div>
