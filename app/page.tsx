@@ -6,6 +6,8 @@ import Logo from "@/components/Logo";
 import Catalogue from "@/components/Catalogue";
 import InverterGuide from "@/components/InverterGuide";
 import ContactForm from "@/components/ContactForm";
+import Reveal from "@/components/Reveal";
+import ZoomImage from "@/components/ZoomImage";
 import { categories } from "@/data/products";
 import { site } from "@/config/site";
 import { msg } from "@/lib/whatsapp";
@@ -16,6 +18,7 @@ const services = [
   { icon: Wrench, title: "Solar Fan Repairs", text: "Bring us your faulty solar fan.", href: msg.repair(), cta: "Request a repair" },
 ];
 const why = ["Quality Solar Products", "Professional Installation Services", "Reliable Customer Support", "Practical Energy Solutions", "Product Guidance Before Purchase"];
+const d = (ms: number) => ({ animationDelay: `${ms}ms` });
 
 export default function Home() {
   return (
@@ -25,17 +28,19 @@ export default function Home() {
         <section className="bg-gradient-to-b from-lime/70 via-mist to-white">
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 md:grid-cols-2 md:py-24">
             <div>
-              <span className="pill">Go solar. Go off-grid.</span>
-              <h1 className="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Power Your World With Reliable Solar Energy.</h1>
-              <p className="mt-5 max-w-lg text-lg opacity-80">Discover reliable solar solutions designed to keep your home and business powered. From solar lighting to inverters and professional installations, Powertech has you covered.</p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <span className="pill rise" style={d(0)}>Go solar. Go off-grid.</span>
+              <h1 className="rise mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl" style={d(100)}>Power Your World With Reliable Solar Energy.</h1>
+              <p className="rise mt-5 max-w-lg text-lg opacity-80" style={d(200)}>Discover reliable solar solutions designed to keep your home and business powered. From solar lighting to inverters and professional installations, Powertech has you covered.</p>
+              <div className="rise mt-8 flex flex-wrap gap-3" style={d(300)}>
                 <a href="#products" className="btn-dark">Explore Our Products</a>
                 <a href={msg.general()} target="_blank" rel="noopener noreferrer" className="btn-line bg-white"><MessageCircle size={18} />Contact Us on WhatsApp</a>
               </div>
             </div>
-            <div className="mx-auto w-full max-w-md">
+            <div className="rise mx-auto w-full max-w-md" style={d(250)}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-forest">
-                <Image src="/products/hero.jpg" alt="Powertech solar energy" fill priority sizes="(min-width: 768px) 448px, 100vw" className="object-cover" />
+                <ZoomImage src="/products/hero.jpg" alt="Powertech solar energy" className="absolute inset-0">
+                  <Image src="/products/hero.jpg" alt="Powertech solar energy" fill priority sizes="(min-width: 768px) 448px, 100vw" className="object-cover" />
+                </ZoomImage>
               </div>
             </div>
           </div>
@@ -46,29 +51,31 @@ export default function Home() {
 
         <section id="about" className="mx-auto max-w-6xl px-5 py-20">
           <div className="grid gap-10 md:grid-cols-2">
-            <div>
+            <Reveal>
               <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">About Powertech</h2>
               <p className="mt-4 max-w-prose">At Powertech Energy &amp; Solutions, we believe everyone deserves access to reliable and affordable energy. We provide quality solar products and professional services that help homes and businesses enjoy dependable power.</p>
               <p className="mt-4 max-w-prose">From supplying solar fans, street lights, lamps, and inverters to providing professional solar installations and solar fan repairs, we are committed to helping our customers find practical energy solutions.</p>
-            </div>
+            </Reveal>
             <div className="space-y-4">
-              {services.map(({ icon: I, title, text, href, cta }) => (
-                <div key={title} className="flex gap-4 rounded-3xl bg-mist p-5"><I className="mt-1 shrink-0 text-leaf" />
-                  <div><h3 className="font-bold">{title}</h3><p className="text-sm opacity-75">{text}</p>
-                    {href && <a href={href} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm font-semibold text-forest underline">{cta}</a>}</div></div>))}
+              {services.map(({ icon: I, title, text, href, cta }, k) => (
+                <Reveal key={title} delay={k * 100}>
+                  <div className="flex gap-4 rounded-3xl bg-mist p-5"><I className="mt-1 shrink-0 text-leaf" />
+                    <div><h3 className="font-bold">{title}</h3><p className="text-sm opacity-75">{text}</p>
+                      {href && <a href={href} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm font-semibold text-forest underline">{cta}</a>}</div></div>
+                </Reveal>))}
             </div>
           </div>
         </section>
 
         <section className="bg-forest py-20 text-white">
           <div className="mx-auto max-w-6xl px-5">
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Why choose Powertech?</h2>
-            <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{why.map((w) => (<li key={w} className="flex items-center gap-3 rounded-2xl bg-white/10 p-5 font-semibold"><Check className="shrink-0 text-lime" />{w}</li>))}</ul>
+            <Reveal><h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Why choose Powertech?</h2></Reveal>
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{why.map((w, k) => (<li key={w}><Reveal delay={k * 80} className="flex h-full items-center gap-3 rounded-2xl bg-white/10 p-5 font-semibold"><Check className="shrink-0 text-lime" />{w}</Reveal></li>))}</ul>
           </div>
         </section>
 
         <section id="contact" className="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-2">
-          <div>
+          <Reveal>
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Talk to Powertech</h2>
             <p className="mt-3 opacity-80">Ask about a product, an installation or a repair.</p>
             <ul className="mt-6 space-y-4">
@@ -76,19 +83,19 @@ export default function Home() {
               <li><a className="flex items-center gap-3 font-medium hover:text-leaf" href={site.instagram} target="_blank" rel="noopener noreferrer"><Instagram />@powertechenergyandsolution</a></li>
               <li><a className="flex items-center gap-3 font-medium hover:text-leaf" href={`mailto:${site.email}`}><Mail />{site.email}</a></li>
             </ul>
-          </div>
-          <ContactForm />
+          </Reveal>
+          <Reveal delay={150}><ContactForm /></Reveal>
         </section>
       </main>
 
       <footer className="bg-ink py-14 text-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-4">
-          <div className="md:col-span-1"><Logo /><p className="mt-3 text-sm text-white/70">Solar products, installations and solar fan repairs.</p></div>
-          <div><h3 className="mb-3 font-bold">Quick links</h3><ul className="space-y-2 text-sm text-white/70">{nav.map(([l, h]) => <li key={h}><a href={h} className="hover:text-lime">{l}</a></li>)}</ul></div>
-          <div><h3 className="mb-3 font-bold">Products</h3><ul className="space-y-2 text-sm text-white/70">{categories.map((c) => <li key={c.id}><a href="#products" className="hover:text-lime">{c.name}</a></li>)}</ul></div>
-          <div><h3 className="mb-3 font-bold">Contact</h3><ul className="space-y-2 text-sm text-white/70">
+          <Reveal className="md:col-span-1"><Logo /><p className="mt-3 text-sm text-white/70">Solar products, installations and solar fan repairs.</p></Reveal>
+          <Reveal delay={80}><h3 className="mb-3 font-bold">Quick links</h3><ul className="space-y-2 text-sm text-white/70">{nav.map(([l, h]) => <li key={h}><a href={h} className="hover:text-lime">{l}</a></li>)}</ul></Reveal>
+          <Reveal delay={160}><h3 className="mb-3 font-bold">Products</h3><ul className="space-y-2 text-sm text-white/70">{categories.map((c) => <li key={c.id}><a href="#products" className="hover:text-lime">{c.name}</a></li>)}</ul></Reveal>
+          <Reveal delay={240}><h3 className="mb-3 font-bold">Contact</h3><ul className="space-y-2 text-sm text-white/70">
             <li><a href={msg.general()} className="hover:text-lime">WhatsApp {site.phoneDisplay}</a></li><li><a href={`mailto:${site.email}`} className="break-all hover:text-lime">{site.email}</a></li>
-            <li><a href={site.instagram} className="hover:text-lime" target="_blank" rel="noopener noreferrer">Instagram</a></li></ul></div>
+            <li><a href={site.instagram} className="hover:text-lime" target="_blank" rel="noopener noreferrer">Instagram</a></li></ul></Reveal>
         </div>
         <p className="mx-auto mt-10 max-w-6xl px-5 text-sm text-white/50">© {new Date().getFullYear()} Powertech Energy &amp; Solutions. All rights reserved.</p>
       </footer>
