@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Mail, MessageCircle, Instagram, Package, Wrench, Sun, Check } from "lucide-react";
 import Header from "@/components/Header";
 import { nav } from "@/lib/nav";
@@ -32,12 +33,9 @@ export default function Home() {
                 <a href={msg.general()} target="_blank" rel="noopener noreferrer" className="btn-line bg-white"><MessageCircle size={18} />Contact Us on WhatsApp</a>
               </div>
             </div>
-            <div aria-hidden className="mx-auto w-full max-w-md">
-              <div className="relative rounded-[2rem] bg-forest p-6">
-                <div className="absolute -right-3 -top-3 h-20 w-20 rounded-full bg-lime" />
-                <div className="grid grid-cols-4 gap-2 [transform:perspective(600px)_rotateX(18deg)]">
-                  {Array.from({ length: 16 }).map((_, k) => (<div key={k} className="cell aspect-square rounded-md bg-gradient-to-br from-navy to-leaf" style={{ animationDelay: `${k * 60}ms` }} />))}
-                </div>
+            <div className="mx-auto w-full max-w-md">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-forest">
+                <Image src="/products/hero.jpg" alt="Powertech solar energy" fill priority sizes="(min-width: 768px) 448px, 100vw" className="object-cover" />
               </div>
             </div>
           </div>
