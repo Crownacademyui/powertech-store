@@ -12,6 +12,7 @@ export type Product = {
 // Image paths (must match the files in public/products exactly, including capitals and folders)
 const FAN_IMG = "/products/fan.jpg/Fan.jpg";
 const STREETLIGHT_IMG = "/products/streetlight.jpg";
+const LAWN_IMG = "/products/lawnlight.jpg";
 const INV_IMG = "/products/inverter-11kw.jpg/Inverter.png";
 
 export const categories: Category[] = [
@@ -49,7 +50,7 @@ export const products: Product[] = [
     models: [{ id: "std", label: "Standard", price: null }, { id: "plus", label: "Plus (larger battery)", price: null }],
     specs: { Charging: "Solar / USB", Output: "USB phone charging", Modes: "Multiple brightness" },
     features: ["Portable", "Phone charging port", "Multiple brightness levels"], inStock: true },
-  { id: "lamp-garden", category: "lamps", name: "Solar Garden Lamp", short: "Stake or wall-mount lamp for compounds and gardens.",
+  { id: "lamp-garden", category: "lamps", name: "Solar Lawn Light", image: LAWN_IMG, short: "Stake or wall-mount lamp for compounds and gardens.",
     description: "Weather-resistant lamp that lights up automatically at night.",
     models: [{ id: "std", label: "Standard", price: null }],
     specs: { Switching: "Automatic", Mounting: "Stake / wall", Weather: "Outdoor rated" }, features: ["Auto on at dusk", "No wiring"], inStock: true },
