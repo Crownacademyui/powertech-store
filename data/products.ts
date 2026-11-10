@@ -12,6 +12,7 @@ export type Product = {
 
 // Image paths (must match the files in public/products exactly, including capitals and folders)
 const FAN_IMG = "/products/fan.jpg/Fan.jpg";
+const STREETLIGHT_IMG = "/products/streetlight.jpg";
 const INV_4KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
 const INV_6KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
 const INV_8KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
@@ -31,7 +32,7 @@ export const products: Product[] = [
     models: [{ id: "std", label: "Standard", price: null }],
     specs: { Type: "Standing fan", "Power source": "Solar" },
     features: ["Works during power outages", "Solar powered", "Remote control"], inStock: true },
-  { id: "sl-integrated", category: "street-lights", name: "All-in-One Solar Street Light", short: "Panel, battery and LED in one unit.",
+  { id: "sl-integrated", category: "street-lights", name: "All-in-One Solar Street Light", image: STREETLIGHT_IMG, short: "Panel, battery and LED in one unit.",
     description: "An integrated street light that charges by day and switches on automatically at dusk.",
     models: [{ id: "60", label: "60W", price: null }, { id: "100", label: "100W", price: null }, { id: "200", label: "200W", price: null }],
     specs: { Type: "Integrated", Switching: "Dusk-to-dawn sensor", Mounting: "Pole mount", Weather: "Outdoor rated" },
