@@ -1,10 +1,9 @@
-// PLACEHOLDER CATALOGUE: names, prices and specs are sample data. Edit this file to update the store.
+// Edit this file to update the store. Street lights and lamps are still sample data.
 // Add photos to /public/products and set `image: "/products/your-file.jpg"`.
 export type CategoryId = "fans" | "street-lights" | "lamps" | "inverters";
 export type Category = { id: CategoryId; name: string; blurb: string };
 export type Model = { id: string; label: string; price: number | null }; // null = "Contact for price"
-export type Tier = 0 | 1 | 2;
-export type InverterInfo = { suited: string; capacity: string; battery: string; panels: string; batteries: string; backup: string; tier: Tier; continuous: string; surge: string };
+export type InverterInfo = { capacity: string; battery: string; panels: string; suited: string; appliances: string[] };
 export type Product = {
   id: string; category: CategoryId; name: string; short: string; description: string; image?: string;
   models: Model[]; specs: Record<string, string>; features: string[]; inStock: boolean; inverter?: InverterInfo;
@@ -13,10 +12,7 @@ export type Product = {
 // Image paths (must match the files in public/products exactly, including capitals and folders)
 const FAN_IMG = "/products/fan.jpg/Fan.jpg";
 const STREETLIGHT_IMG = "/products/streetlight.jpg";
-const INV_4KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
-const INV_6KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
-const INV_8KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
-const INV_11KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
+const INV_IMG = "/products/inverter-11kw.jpg/Inverter.png";
 
 export const categories: Category[] = [
   { id: "fans", name: "Solar Fans", blurb: "Rechargeable fans that keep running when the power goes out." },
@@ -25,13 +21,24 @@ export const categories: Category[] = [
   { id: "inverters", name: "Solar Inverters", blurb: "Backup power for homes and businesses, from 4kW to 11kW." },
 ];
 
-const ask = "Confirm with Powertech";
+const inverter = (kw: number, battery: string, panels: string, suited: string, appliances: string[], short: string, description: string): Product => ({
+  id: `inv-${kw}kw`, category: "inverters", name: `${kw}kW Solar Inverter`, image: INV_IMG, short, description,
+  models: [{ id: `${kw}kw`, label: `${kw}kW system`, price: null }],
+  specs: { Capacity: `${kw}kW`, Battery: battery, "Solar panels": panels, "Wave type": "Pure sine wave", "Suitable for": suited },
+  features: [battery, panels, "Pure sine wave"], inStock: true,
+  inverter: { capacity: `${kw}kW`, battery, panels, suited, appliances },
+});
+
 export const products: Product[] = [
-  { id: "fan-stand", category: "fans", name: "Solar Standing Fan", image: FAN_IMG, short: "Solar standing fan for homes and shops.",
-    description: "A rechargeable standing fan that works on mains, battery or solar charging. Adjustable height and speed.",
-    models: [{ id: "std", label: "Standard", price: null }],
-    specs: { Type: "Standing fan", "Power source": "Solar" },
-    features: ["Works during power outages", "Solar powered", "Remote control"], inStock: true },
+  { id: "fan-stand", category: "fans", name: "Air Circulator Solar Fan", image: FAN_IMG, short: "14-inch standing solar fan with solar panel, battery and USB output.",
+    description: "A 14-inch air circulator fan with a brushless motor and 5 gears from soft to strong. It comes with a solar panel and 5m cable, a battery and a 3A DC adapter charger, plus a USB charger output.",
+    models: [{ id: "sf01", label: "SF01 (14 inch)", price: null }],
+    specs: {
+      Power: "30W", Motor: "Brushless", "Solar panel": "Mono 10V / 28W (with 5m cable)", Battery: "18650 Ternary, 7.4V / 20.8Ah", Charger: "3A DC adapter",
+      "Wind type": "2 modes, 5 gears (soft to strong)", "Charging time": "5 hours", Duration: "7 to 30 hours", Function: "USB charge output",
+      "Fan size": "φ350 × 1060 mm (14 inch)", "Solar panel size": "400 × 350 mm", "Blow direction": "Up / down / left / right", Colour: "White + grey", Material: "ABS", Warranty: "1 year",
+    },
+    features: ["Solar panel + 5m cable included", "Battery + 3A DC adapter charger included", "USB charger output", "7 to 30 hours run time", "Brushless motor", "1 year warranty"], inStock: true },
   { id: "sl-integrated", category: "street-lights", name: "All-in-One Solar Street Light", image: STREETLIGHT_IMG, short: "Panel, battery and LED in one unit.",
     description: "An integrated street light that charges by day and switches on automatically at dusk.",
     models: [{ id: "60", label: "60W", price: null }, { id: "100", label: "100W", price: null }, { id: "200", label: "200W", price: null }],
@@ -40,39 +47,22 @@ export const products: Product[] = [
   { id: "lamp-rechargeable", category: "lamps", name: "Rechargeable Solar Lamp", short: "Portable lamp with USB phone charging.",
     description: "A portable lamp with a built-in panel and battery. Useful for homes, shops and outdoor use.",
     models: [{ id: "std", label: "Standard", price: null }, { id: "plus", label: "Plus (larger battery)", price: null }],
-    specs: { "Charging": "Solar / USB", Output: "USB phone charging", Modes: "Multiple brightness" },
+    specs: { Charging: "Solar / USB", Output: "USB phone charging", Modes: "Multiple brightness" },
     features: ["Portable", "Phone charging port", "Multiple brightness levels"], inStock: true },
   { id: "lamp-garden", category: "lamps", name: "Solar Garden Lamp", short: "Stake or wall-mount lamp for compounds and gardens.",
     description: "Weather-resistant lamp that lights up automatically at night.",
     models: [{ id: "std", label: "Standard", price: null }],
     specs: { Switching: "Automatic", Mounting: "Stake / wall", Weather: "Outdoor rated" }, features: ["Auto on at dusk", "No wiring"], inStock: true },
-  { id: "inv-4kw", category: "inverters", name: "4kW Solar Inverter", image: INV_4KW_IMG, short: "Medium households.",
-    description: "Suited to medium households. Final suitability depends on your appliances and battery setup.",
-    models: [{ id: "4kw", label: "4kW system", price: null }],
-    specs: { Capacity: "4kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
-    inverter: { capacity: "4kW", suited: "Medium household", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 1, continuous: "Rated 4kW", surge: ask } },
-  { id: "inv-6kw", category: "inverters", name: "6kW Solar Inverter", image: INV_6KW_IMG, short: "Medium to large homes.",
-    description: "Handles more appliances running together. Air conditioners need a load assessment first.",
-    models: [{ id: "6kw", label: "6kW system", price: null }],
-    specs: { Capacity: "6kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
-    inverter: { capacity: "6kW", suited: "Medium to large home", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 2, continuous: "Rated 6kW", surge: ask } },
-  { id: "inv-8kw", category: "inverters", name: "8kW Solar Inverter", image: INV_8KW_IMG, short: "Large homes with heavier loads.",
-    description: "For large homes. Air conditioners, pumps and other heavy loads need a load assessment first.",
-    models: [{ id: "8kw", label: "8kW system", price: null }],
-    specs: { Capacity: "8kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
-    inverter: { capacity: "8kW", suited: "Large home", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 2, continuous: "Rated 8kW", surge: ask } },
-  { id: "inv-11kw", category: "inverters", name: "11kW Solar Inverter", image: INV_11KW_IMG, short: "Largest homes and small businesses.",
-    description: "Our highest-capacity system, for large homes and small businesses. Whole-home backup depends on battery size and load.",
-    models: [{ id: "11kw", label: "11kW system", price: null }],
-    specs: { Capacity: "11kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
-    inverter: { capacity: "11kW", suited: "Large home or small business", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 2, continuous: "Rated 11kW", surge: ask } },
-];
-
-export const tierNames = ["Small home / basic household", "Medium household", "Large home / higher demand"];
-// minTier: lowest tier that can run it. "conditional" = only if load, surge and battery setup allow.
-export const appliances: { name: string; minTier: Tier; conditional?: boolean }[] = [
-  { name: "LED bulbs", minTier: 0 }, { name: "Fans", minTier: 0 }, { name: "Television", minTier: 0 }, { name: "Wi-Fi router", minTier: 0 },
-  { name: "Laptops", minTier: 0 }, { name: "Small electronics", minTier: 0 },
-  { name: "Multiple fans", minTier: 1 }, { name: "Computers", minTier: 1 }, { name: "Refrigerator", minTier: 1, conditional: true },
-  { name: "Multiple refrigerators", minTier: 2, conditional: true }, { name: "Washing machine", minTier: 1, conditional: true }, { name: "Water pump", minTier: 2, conditional: true }, { name: "Air conditioner", minTier: 2, conditional: true },
+  inverter(4, "5kWh lithium battery", "6 × 630W panels", "1 or 2 bedroom apartment",
+    ["1 inverter AC (during the day)", "Washing machine + PS5", "Fridge or freezer", "Sound bar + TV", "Pumping machine", "Microwave + blender"],
+    "1 or 2 bedroom apartments.", "5kWh lithium battery with 6 × 630W solar panels. Suitable for a 1 or 2 bedroom apartment."),
+  inverter(6, "15kWh lithium-ion battery", "8 or 9 × 630W panels", "3 bedroom apartment",
+    ["2 inverter AC", "Washing machine", "Microwave", "Hair dryer", "Fridge or freezer", "Standing fans", "TV + sound bar + games", "Blender", "Pumping machine"],
+    "3 bedroom apartments.", "15kWh lithium-ion battery with 8 or 9 × 630W solar panels. Suitable for a 3 bedroom apartment."),
+  inverter(8, "15kWh lithium-ion battery", "14 or 16 × 630W panels", "Duplex",
+    ["4 inverter AC (during the day)", "Pumping machine", "Filling station", "Clinic or pharmacy"],
+    "Duplexes, clinics and filling stations.", "15kWh lithium-ion battery with 14 or 16 × 630W solar panels. Suitable for a duplex."),
+  inverter(11, "15kWh lithium-ion battery", "16, 18 or 24 × 630W panels", "Duplex, big office, pharmacy or hospital",
+    ["5 or 4 inverter AC", "Pumping machine", "Microwave", "Filling station", "A big office", "Pharmacy or hospital"],
+    "Duplexes, big offices and hospitals.", "15kWh lithium-ion battery with 16, 18 or 24 × 630W solar panels. Suitable for a duplex, a big office, a pharmacy or a hospital."),
 ];
