@@ -42,15 +42,12 @@ function Details({ product, onClose, onBuy }: { product: Product; onClose: () =>
         <div><h3 className="mb-2 font-bold">Specifications</h3>
           <dl className="divide-y divide-forest/10 text-sm">
             {Object.entries(product.specs).map(([k, v]) => (<div key={k} className="flex justify-between gap-3 py-2"><dt className="opacity-70">{k}</dt><dd className="text-right font-medium">{v}</dd></div>))}
-            {inv && (<>
-              <div className="flex justify-between gap-3 py-2"><dt className="opacity-70">Battery</dt><dd className="text-right font-medium">{inv.battery}</dd></div>
-              <div className="flex justify-between gap-3 py-2"><dt className="opacity-70">Solar panels</dt><dd className="text-right font-medium">{inv.panels}</dd></div>
-              <div className="flex justify-between gap-3 py-2"><dt className="opacity-70">Batteries needed</dt><dd className="text-right font-medium">{inv.batteries}</dd></div>
-            </>)}
           </dl></div>
         <div><h3 className="mb-2 font-bold">Benefits</h3>
           <ul className="space-y-2 text-sm">{product.features.map((x) => (<li key={x} className="flex gap-2"><Check size={18} className="mt-0.5 shrink-0 text-leaf" />{x}</li>))}</ul>
-          {inv && <p className="mt-4 rounded-xl bg-mist p-3 text-sm">Sample specifications. Ask Powertech for a load assessment before you buy an inverter.</p>}</div>
+          {inv && (<div className="mt-4"><h4 className="mb-2 font-semibold">Appliances it can power</h4>
+            <ul className="flex flex-wrap gap-2 text-sm">{inv.appliances.map((a) => (<li key={a} className="rounded-full bg-mist px-3 py-1">{a}</li>))}</ul>
+            <p className="mt-3 rounded-xl bg-mist p-3 text-sm">Actual use depends on your total load. Ask Powertech for a load assessment before you buy.</p></div>)}</div>
       </div>
     </Modal>
   );
