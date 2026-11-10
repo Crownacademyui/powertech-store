@@ -10,9 +10,12 @@ export type Product = {
   models: Model[]; specs: Record<string, string>; features: string[]; inStock: boolean; inverter?: InverterInfo;
 };
 
-// Image file names (must match the files in public/products exactly, including capitals and .jpg/.png)
-const FAN_IMG = "/products/Fan.jpg";
-const INVERTER_IMG = "/products/Inverter.png";
+// Image paths (must match the files in public/products exactly, including capitals and folders)
+const FAN_IMG = "/products/fan.jpg/Fan.jpg";
+const INV_4KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
+const INV_6KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
+const INV_8KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
+const INV_11KW_IMG = "/products/inverter-11kw.jpg/Inverter.png";
 
 export const categories: Category[] = [
   { id: "fans", name: "Solar Fans", blurb: "Rechargeable fans that keep running when the power goes out." },
@@ -42,22 +45,22 @@ export const products: Product[] = [
     description: "Weather-resistant lamp that lights up automatically at night.",
     models: [{ id: "std", label: "Standard", price: null }],
     specs: { Switching: "Automatic", Mounting: "Stake / wall", Weather: "Outdoor rated" }, features: ["Auto on at dusk", "No wiring"], inStock: true },
-  { id: "inv-4kw", category: "inverters", name: "4kW Solar Inverter", image: INVERTER_IMG, short: "Medium households.",
+  { id: "inv-4kw", category: "inverters", name: "4kW Solar Inverter", image: INV_4KW_IMG, short: "Medium households.",
     description: "Suited to medium households. Final suitability depends on your appliances and battery setup.",
     models: [{ id: "4kw", label: "4kW system", price: null }],
     specs: { Capacity: "4kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
     inverter: { capacity: "4kW", suited: "Medium household", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 1, continuous: "Rated 4kW", surge: ask } },
-  { id: "inv-6kw", category: "inverters", name: "6kW Solar Inverter", image: INVERTER_IMG, short: "Medium to large homes.",
+  { id: "inv-6kw", category: "inverters", name: "6kW Solar Inverter", image: INV_6KW_IMG, short: "Medium to large homes.",
     description: "Handles more appliances running together. Air conditioners need a load assessment first.",
     models: [{ id: "6kw", label: "6kW system", price: null }],
     specs: { Capacity: "6kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
     inverter: { capacity: "6kW", suited: "Medium to large home", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 2, continuous: "Rated 6kW", surge: ask } },
-  { id: "inv-8kw", category: "inverters", name: "8kW Solar Inverter", image: INVERTER_IMG, short: "Large homes with heavier loads.",
+  { id: "inv-8kw", category: "inverters", name: "8kW Solar Inverter", image: INV_8KW_IMG, short: "Large homes with heavier loads.",
     description: "For large homes. Air conditioners, pumps and other heavy loads need a load assessment first.",
     models: [{ id: "8kw", label: "8kW system", price: null }],
     specs: { Capacity: "8kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
     inverter: { capacity: "8kW", suited: "Large home", battery: ask, panels: ask, batteries: ask, backup: ask, tier: 2, continuous: "Rated 8kW", surge: ask } },
-  { id: "inv-11kw", category: "inverters", name: "11kW Solar Inverter", image: INVERTER_IMG, short: "Largest homes and small businesses.",
+  { id: "inv-11kw", category: "inverters", name: "11kW Solar Inverter", image: INV_11KW_IMG, short: "Largest homes and small businesses.",
     description: "Our highest-capacity system, for large homes and small businesses. Whole-home backup depends on battery size and load.",
     models: [{ id: "11kw", label: "11kW system", price: null }],
     specs: { Capacity: "11kW" }, features: ["Backup power for your home or business", "Works with solar panels and batteries"], inStock: true,
