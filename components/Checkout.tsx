@@ -7,7 +7,8 @@ import { site } from "@/config/site";
 import { msg, naira } from "@/lib/whatsapp";
 import type { Model, Product } from "@/data/products";
 
-export type Order = { product: Product; model: Model; qty: number };
+export type Order = { product: Product; model: Model & { price: number }; qty: number };
+export const toOrder = (product: Product, m: Model, qty: number): Order | null => (m.price === null ? null : { product, model: { ...m, price: m.price }, qty });
 const steps = ["Your order", "Your details", "Payment"];
 
 export default function Checkout({ order, onClose }: { order: Order; onClose: () => void }) {
