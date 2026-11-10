@@ -1,10 +1,15 @@
 import Image from "next/image";
 import { Fan, Lamp, Lightbulb, BatteryCharging } from "lucide-react";
+import ZoomImage from "./ZoomImage";
 import type { CategoryId } from "@/data/products";
 const icons = { fans: Fan, "street-lights": Lightbulb, lamps: Lamp, inverters: BatteryCharging };
 export default function ProductArt({ category, image, alt }: { category: CategoryId; image?: string; alt: string }) {
   if (image) {
-    return (<div className="relative h-full w-full"><Image src={image} alt={alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" /></div>);
+    return (
+      <ZoomImage src={image} alt={alt}>
+        <Image src={image} alt={alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+      </ZoomImage>
+    );
   }
   const Icon = icons[category];
   return (
